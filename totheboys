@@ -1,0 +1,45 @@
+reach = 2.8
+
+local function onHit(hit,handle)
+    local victim = hit.Parent:FindFirstChildOfClass("Humanoid")
+	    if victim and victim.Parent.Name ~= game.Players.LocalPlayer.Name then
+			firetouchinterest(hit,handle,0)
+			firetouchinterest(hit,handle,1)
+			firetouchinterest(hit,handle,0)
+			firetouchinterest(hit,handle,1)
+		end
+    end
+
+local on = true
+local plr = game:GetService('Players').LocalPlayer
+local cooldown = false
+game:GetService('RunService').Heartbeat:connect(function()
+    if on then
+    local hum = plr.Character.Humanoid
+        for _,v in ipairs(game.Players:GetPlayers()) do
+            if v.Name ~= plr.Name then
+                local s,e = pcall(function()
+                    local root = v.Character:FindFirstChild("HumanoidRootPart")
+                    local tool = hum.Parent:FindFirstChildOfClass('Tool')
+                    local mag = (root.Position-tool.Handle.Position).magnitude
+		            if mag <= reach then
+		                onHit(root,tool.Handle)
+                    end
+                end)
+            end
+        end
+    end
+end)
+
+local eventbypass
+
+eventbypass = hookmetamethod(game, "__namecall", function(self, ...)
+    local method = getnamecallmethod()
+    local args = {...}
+
+    if not checkcaller() and self.Name == "DamageDetected" and method == "FireServer" then
+        return;
+    end
+
+    return eventbypass(self, ...)
+end)
