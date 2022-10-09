@@ -1,4 +1,4 @@
-reach = 3
+reach = 2.8
 
 local function onHit(hit,handle)
     local victim = hit.Parent:FindFirstChildOfClass("Humanoid")
