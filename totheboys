@@ -19,7 +19,7 @@ game:GetService('RunService').Heartbeat:connect(function()
         for _,v in ipairs(game.Players:GetPlayers()) do
             if v.Name ~= plr.Name then
                 local s,e = pcall(function()
-                    local root = v.Character:FindFirstChild("LeftArm")
+                    local root = v.Character:FindFirstChild["Left Arm"]
                     local tool = hum.Parent:FindFirstChildOfClass('Tool')
                     local mag = (root.Position-tool.Handle.Position).magnitude
 		            if mag <= reach then
